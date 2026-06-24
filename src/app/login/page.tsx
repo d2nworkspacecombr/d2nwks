@@ -29,8 +29,10 @@ export default function LoginPage() {
       return;
     }
 
-    router.push("/");
-    router.refresh();
+    // Redirecionamento "completo" (não só client-side) — garante que o
+    // servidor já recebe os cookies de sessão atualizados na próxima
+    // requisição, evitando voltar pro login por engano.
+    window.location.href = "/";
   }
 
   return (
