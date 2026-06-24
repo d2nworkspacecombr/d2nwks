@@ -37,9 +37,12 @@ export default function LoginPage() {
     <div className="min-h-screen flex items-center justify-center bg-paper">
       <div className="w-full max-w-sm">
         <div className="flex flex-col items-center mb-8">
-          <div className="w-16 h-16 rounded-xl bg-d2n-grad flex items-center justify-center text-white font-display font-bold text-xl mb-4">
-            D2N
-          </div>
+          {/* eslint-disable-next-line @next/next/no-img-element */}
+          <img
+            src="/logo-icon.png"
+            alt="D2N Carreira e Negócios"
+            className="w-16 h-16 rounded-xl mb-4"
+          />
           <h1 className="font-display text-2xl font-bold text-navy uppercase tracking-wide">
             D2N Workspace
           </h1>
