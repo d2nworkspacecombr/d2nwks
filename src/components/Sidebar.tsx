@@ -1,8 +1,8 @@
 "use client";
 
 import Link from "next/link";
-import { usePathname, useRouter } from "next/navigation";
-import { createClient } from "@/lib/supabase/client";
+import { usePathname } from "next/navigation";
+import { logout } from "@/lib/auth-actions";
 import type { Usuario } from "@/types/database";
 
 const NAV = [
@@ -14,14 +14,6 @@ const NAV = [
 
 export default function Sidebar({ usuario }: { usuario: Usuario }) {
   const pathname = usePathname();
-  const router = useRouter();
-  const supabase = createClient();
-
-  async function sair() {
-    await supabase.auth.signOut();
-    router.push("/login");
-    router.refresh();
-  }
 
   return (
     <aside className="w-[260px] flex-shrink-0 bg-white border-r border-line flex flex-col fixed top-0 left-0 bottom-0 z-20">
@@ -59,12 +51,14 @@ export default function Sidebar({ usuario }: { usuario: Usuario }) {
         <div className="text-[11px] text-ink-faint uppercase tracking-wide mb-3">
           {usuario.role === "admin" ? "Administrador" : usuario.cargo || "Colaborador"}
         </div>
-        <button
-          onClick={sair}
-          className="text-[11px] font-bold uppercase tracking-wide text-teal-dark"
-        >
-          Sair
-        </button>
+        <form action={logout}>
+          <button
+            type="submit"
+            className="text-[11px] font-bold uppercase tracking-wide text-teal-dark"
+          >
+            Sair
+          </button>
+        </form>
       </div>
     </aside>
   );
