@@ -26,9 +26,8 @@ export default function Sidebar({ usuario }: { usuario: Usuario }) {
   return (
     <aside className="w-[260px] flex-shrink-0 bg-white border-r border-line flex flex-col fixed top-0 left-0 bottom-0 z-20">
       <div className="h-[60px] flex items-center gap-3 px-5 border-b border-line bg-navy-dark">
-        <div className="w-8 h-8 rounded-md border-2 border-teal flex items-center justify-center text-teal font-display font-bold text-[13px]">
-          D2N
-        </div>
+        {/* eslint-disable-next-line @next/next/no-img-element */}
+        <img src="/logo-icon.png" alt="D2N" className="w-8 h-8 rounded-md" />
         <div className="leading-tight">
           <div className="font-display text-[12px] font-bold tracking-wide text-teal uppercase">
             D2N Workspace
