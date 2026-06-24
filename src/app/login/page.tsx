@@ -1,40 +1,10 @@
-"use client";
+import { login } from "./actions";
 
-import { useState } from "react";
-import { useRouter } from "next/navigation";
-import { createClient } from "@/lib/supabase/client";
-
-export default function LoginPage() {
-  const router = useRouter();
-  const supabase = createClient();
-  const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
-  const [erro, setErro] = useState<string | null>(null);
-  const [carregando, setCarregando] = useState(false);
-
-  async function handleSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    setErro(null);
-    setCarregando(true);
-
-    const { error } = await supabase.auth.signInWithPassword({
-      email,
-      password: senha,
-    });
-
-    setCarregando(false);
-
-    if (error) {
-      setErro("E-mail ou senha incorretos.");
-      return;
-    }
-
-    // Redirecionamento "completo" (não só client-side) — garante que o
-    // servidor já recebe os cookies de sessão atualizados na próxima
-    // requisição, evitando voltar pro login por engano.
-    window.location.href = "/";
-  }
-
+export default function LoginPage({
+  searchParams,
+}: {
+  searchParams: { erro?: string };
+}) {
   return (
     <div className="min-h-screen flex items-center justify-center bg-paper">
       <div className="w-full max-w-sm">
@@ -54,7 +24,7 @@ export default function LoginPage() {
         </div>
 
         <form
-          onSubmit={handleSubmit}
+          action={login}
           className="bg-white border border-line rounded-lg p-8 border-t-[3px] border-t-teal"
         >
           <div className="mb-4">
@@ -63,9 +33,8 @@ export default function LoginPage() {
             </label>
             <input
               type="email"
+              name="email"
               required
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
               className="w-full px-3 py-2 border border-line rounded text-sm focus:outline-none focus:border-teal"
               placeholder="seu@email.com"
             />
@@ -77,24 +46,22 @@ export default function LoginPage() {
             </label>
             <input
               type="password"
+              name="password"
               required
-              value={senha}
-              onChange={(e) => setSenha(e.target.value)}
               className="w-full px-3 py-2 border border-line rounded text-sm focus:outline-none focus:border-teal"
               placeholder="••••••••"
             />
           </div>
 
-          {erro && (
-            <p className="text-xs text-red-600 mt-2 mb-1">{erro}</p>
+          {searchParams?.erro && (
+            <p className="text-xs text-red-600 mt-2 mb-1">{searchParams.erro}</p>
           )}
 
           <button
             type="submit"
-            disabled={carregando}
-            className="w-full mt-5 py-3 rounded bg-d2n-grad text-white text-sm font-bold uppercase tracking-wide disabled:opacity-50"
+            className="w-full mt-5 py-3 rounded bg-d2n-grad text-white text-sm font-bold uppercase tracking-wide"
           >
-            {carregando ? "Entrando..." : "Entrar"}
+            Entrar
           </button>
         </form>
 
